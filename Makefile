@@ -63,10 +63,12 @@ package: download-all
 # Add targets here to download tools during CI runs or for local setup. 
 # Each tool should be placed in a subdirectory of $(TOOLS_DIRECTORY) with the same name
 # as the tool (e.g., tools/eldarica).	
-download-tools: \
-	$(TOOLS_DIRECTORY)/eldarica \
+download-tools: \ 
+	\ # verifiers
 	$(TOOLS_DIRECTORY)/golem \
 	$(TOOLS_DIRECTORY)/princess \
+	$(TOOLS_DIRECTORY)/spacer \
+	\ # validators
 	$(TOOLS_DIRECTORY)/z3 \
 	$(TOOLS_DIRECTORY)/cvc5 \
 	$(TOOLS_DIRECTORY)/theta
@@ -97,14 +99,7 @@ chc-comp25-benchmarks-test: chc-comp25-benchmarks-full
 	@for i in chc-comp25-benchmarks-test/*.set; do echo $$i; lines=$$(head -n5 "$$i"); rm $$i; for line in $${lines}; do echo $${line} >> $$i; done; done
 
 ### Tools: each tool is downloaded, extracted, and placed in a subdirectory of $(TOOLS_DIRECTORY) with
-### the same name as the tool (e.g., tools/eldarica).
-
-$(TOOLS_DIRECTORY)/eldarica:
-	mkdir -p $(TOOLS_DIRECTORY)
-	rm -rf $@
-	wget https://eldarica.org/eldarica-bin-2.2-chc-comp.zip -O $(TOOLS_DIRECTORY)/eldarica.zip
-	cd $(TOOLS_DIRECTORY) && unzip eldarica.zip && mv eldarica-2.2 eldarica
-	rm $(TOOLS_DIRECTORY)/eldarica.zip
+### the same name as the tool (e.g., tools/golem).
 
 $(TOOLS_DIRECTORY)/golem:
 	mkdir -p $(TOOLS_DIRECTORY)
@@ -120,29 +115,34 @@ $(TOOLS_DIRECTORY)/theta:
 	cd $(TOOLS_DIRECTORY) && unzip theta.zip && mv Theta-chccomp theta
 	rm $(TOOLS_DIRECTORY)/theta.zip
 
+$(TOOLS_DIRECTORY)/spacer: $(TOOLS_DIRECTORY)/z3
+	mkdir -p $(TOOLS_DIRECTORY)
+	rm -rf $@
+	ln -s $(TOOLS_DIRECTORY)/z3/bin $(TOOLS_DIRECTORY)/spacer
+
 ### Below are the validators.
 
 $(TOOLS_DIRECTORY)/princess:
 	mkdir -p $(TOOLS_DIRECTORY)
 	rm -rf $@
-	wget https://github.com/uuverifiers/princess/releases/download/snapshot-2024-11-08/princess-bin-2024-11-08.zip -O $(TOOLS_DIRECTORY)/princess.zip
-	cd $(TOOLS_DIRECTORY) && unzip princess.zip && mv princess-bin-2024-11-08 princess
+	wget https://github.com/uuverifiers/princess/releases/download/snapshot-2025-11-17/princess-bin-2025-11-17.zip -O $(TOOLS_DIRECTORY)/princess.zip
+	cd $(TOOLS_DIRECTORY) && unzip princess.zip && mv princess-bin-2025-11-17 princess
 	cd $(TOOLS_DIRECTORY)/princess && echo '#!/bin/bash\ntail -n +7 "$$1" | $$(dirname "$$0")/../validator/validate-model.py $$2 > validate.smt2 && $$(dirname "$$0")/princess validate.smt2' > validate.sh && chmod +x validate.sh
 	rm $(TOOLS_DIRECTORY)/princess.zip
 
 $(TOOLS_DIRECTORY)/z3:
 	mkdir -p $(TOOLS_DIRECTORY)
 	rm -rf $@
-	wget https://github.com/Z3Prover/z3/releases/download/z3-4.15.0/z3-4.15.0-x64-glibc-2.39.zip -O $(TOOLS_DIRECTORY)/z3.zip
-	cd $(TOOLS_DIRECTORY) && unzip z3.zip && mv z3-4.15.0-x64-glibc-2.39 z3
+	wget https://github.com/Z3Prover/z3/releases/download/z3-4.16.0/z3-4.16.0-x64-glibc-2.39.zip -O $(TOOLS_DIRECTORY)/z3.zip
+	cd $(TOOLS_DIRECTORY) && unzip z3.zip && mv z3-4.16.0-x64-glibc-2.39 z3
 	cd $(TOOLS_DIRECTORY)/z3 && echo '#!/bin/bash\ntail -n +7 "$$1" | $$(dirname "$$0")/../validator/validate-model.py $$2 > validate.smt2 && $$(dirname "$$0")/bin/z3 validate.smt2' > validate.sh && chmod +x validate.sh
 	rm $(TOOLS_DIRECTORY)/z3.zip
 
 $(TOOLS_DIRECTORY)/cvc5:
 	mkdir -p $(TOOLS_DIRECTORY)
 	rm -rf $@
-	wget https://github.com/cvc5/cvc5/releases/download/cvc5-1.2.1/cvc5-Linux-x86_64-static.zip -O $(TOOLS_DIRECTORY)/cvc5.zip
-	cd $(TOOLS_DIRECTORY) && unzip cvc5.zip && mv cvc5-Linux-x86_64-static cvc5
+	wget https://github.com/cvc5/cvc5/releases/download/cvc5-1.3.3/cvc5-Linux-x86_64-libcxx-static.zip -O $(TOOLS_DIRECTORY)/cvc5.zip
+	cd $(TOOLS_DIRECTORY) && unzip cvc5.zip && mv cvc5-Linux-x86_64-libcxx-static cvc5
 	cd $(TOOLS_DIRECTORY)/cvc5 && echo '#!/bin/bash\ntail -n +7 "$$1" | $$(dirname "$$0")/../validator/validate-model.py $$2 > validate.smt2 && $$(dirname "$$0")/bin/cvc5 validate.smt2' > validate.sh && chmod +x validate.sh
 	rm $(TOOLS_DIRECTORY)/cvc5.zip
 
