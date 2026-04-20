@@ -4,13 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  contents: write
 
 jobs:
   run:
@@ -61,21 +55,9 @@ jobs:
           source benchmark-utils/ci_config.sh
           make process-results
 
-      - name: Upload tables to GitHub Pages
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy Javadoc
+        uses: JamesIves/github-pages-deploy-action@22a6ee251d6f13c6ab1ecb200d974f1a6feb1b8d # v4.4.2
         with:
-          path: results/pages
-
-  deploy:
-    needs: run
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          branch: gh-pages
+          folder: results/pages
+          single-commit: true
