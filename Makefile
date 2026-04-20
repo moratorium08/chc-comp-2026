@@ -113,7 +113,7 @@ $(TOOLS_DIRECTORY)/golem:
 $(TOOLS_DIRECTORY)/theta:
 	mkdir -p $(TOOLS_DIRECTORY)
 	rm -rf $@
-	wget 'https://zenodo.org/records/19607082/files/Theta-chccomp.zip' -O $(TOOLS_DIRECTORY)/theta.zip
+	wget 'https://zenodo.org/records/19664890/files/Theta-chccomp.zip' -O $(TOOLS_DIRECTORY)/theta.zip
 	cd $(TOOLS_DIRECTORY) && unzip theta.zip && mv Theta-chccomp theta
 	rm $(TOOLS_DIRECTORY)/theta.zip
 
