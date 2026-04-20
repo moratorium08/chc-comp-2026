@@ -32,7 +32,7 @@ jobs:
             echo 'output<<EOF'
             make debug-templates
             echo 'EOF'
-          } >> "$GITHUB_OUTPUT"
+          } | tee -a "$GITHUB_OUTPUT"
 
       - name: Download tools
         id: download
@@ -48,7 +48,7 @@ jobs:
             echo "Contents of tools/:"
             find tools -maxdepth 2 -type f | sort
             echo 'EOF'
-          } >> "$GITHUB_OUTPUT"
+          } | tee -a "$GITHUB_OUTPUT"
 
       - name: Comment on PR
         uses: peter-evans/create-or-update-comment@v4
