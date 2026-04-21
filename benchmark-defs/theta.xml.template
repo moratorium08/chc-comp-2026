@@ -10,8 +10,18 @@
     <propertyfile>../chc-comp26-benchmarks/properties/check-sat.prp</propertyfile>
   </tasks>
 
+  <tasks name="BV-Lin">
+    <includesfile>../chc-comp26-benchmarks/BV-Lin.set</includesfile>
+    <propertyfile>../chc-comp26-benchmarks/properties/check-sat.prp</propertyfile>
+  </tasks>
+
   <tasks name="LRA-Lin">
     <includesfile>../chc-comp26-benchmarks/LRA-Lin.set</includesfile>
+    <propertyfile>../chc-comp26-benchmarks/properties/check-sat.prp</propertyfile>
+  </tasks>
+
+  <tasks name="LRA">
+    <includesfile>../chc-comp26-benchmarks/LRA.set</includesfile>
     <propertyfile>../chc-comp26-benchmarks/properties/check-sat.prp</propertyfile>
   </tasks>
   
