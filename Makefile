@@ -75,7 +75,7 @@ download-validators: \
 	$(TOOLS_DIRECTORY)/cvc5 \
 	$(TOOLS_DIRECTORY)/theta
 
-download-all: benchexec chc-comp25-benchmarks-full chc-comp25-benchmarks-test download-tools
+download-all: benchexec chc-comp26-benchmarks-full chc-comp26-benchmarks-test download-tools
 
 ############# Download Tools
 
@@ -88,17 +88,17 @@ benchexec:
 		ln -sf $$i; \
 	done
 
-chc-comp25-benchmarks-full:
-	git clone --depth 1 https://github.com/chc-comp/chc-comp25-benchmarks chc-comp25-benchmarks-full
-	cd chc-comp25-benchmarks-full && \
+chc-comp26-benchmarks-full:
+	git clone --depth 1 https://github.com/chc-comp/chc-comp26-benchmarks chc-comp26-benchmarks-full
+	cd chc-comp26-benchmarks-full && \
 	grep -l inconsistent $$(cat *.set) | while read -r badfile; do \
 	for set in *.set; do \
 		grep -vF "$$badfile" "$$set" > tmp && mv tmp "$$set"; \
 	done; done
 
-chc-comp25-benchmarks-test: chc-comp25-benchmarks-full
-	cp -r chc-comp25-benchmarks-full chc-comp25-benchmarks-test
-	@for i in chc-comp25-benchmarks-test/*.set; do echo $$i; lines=$$(head -n5 "$$i"); rm $$i; for line in $${lines}; do echo $${line} >> $$i; done; done
+chc-comp26-benchmarks-test: chc-comp26-benchmarks-full
+	cp -r chc-comp26-benchmarks-full chc-comp26-benchmarks-test
+	@for i in chc-comp26-benchmarks-test/*.set; do echo $$i; lines=$$(head -n5 "$$i"); rm $$i; for line in $${lines}; do echo $${line} >> $$i; done; done
 
 ### Tools: each tool is downloaded, extracted, and placed in a subdirectory of $(TOOLS_DIRECTORY) with
 ### the same name as the tool (e.g., tools/golem).
@@ -155,19 +155,19 @@ $(TOOLS_DIRECTORY)/cvc5:
 configured: ./benchmark-utils/check_configured.sh
 	@echo "Checking if the shell variables required to run this artifact are configured"
 	./benchmark-utils/check_configured.sh
-	bash -c '[[ -e chc-comp25-benchmarks ]]'
+	bash -c '[[ -e chc-comp26-benchmarks ]]'
 
 __setup_tasks: 
 	@echo "Setting up tasks..."
-	@rm -rf chc-comp25-benchmarks
-	@ln -s $(BENCHMARKS) chc-comp25-benchmarks
+	@rm -rf chc-comp26-benchmarks
+	@ln -s $(BENCHMARKS) chc-comp26-benchmarks
 	@echo "Tasks set up successfully."
 
 setup-benchmark:
-	$(MAKE) __setup_tasks BENCHMARKS=chc-comp25-benchmarks-full
+	$(MAKE) __setup_tasks BENCHMARKS=chc-comp26-benchmarks-full
 
 setup-test:
-	$(MAKE) __setup_tasks BENCHMARKS=chc-comp25-benchmarks-test
+	$(MAKE) __setup_tasks BENCHMARKS=chc-comp26-benchmarks-test
 
 
 ############## Verify Programs
@@ -179,7 +179,7 @@ verify-all: $(addprefix verification-, $(ALL_VERIFIER_BASENAMES))
 # to find the tool directory (e.g., tools/eldarica).
 verification-%: configured
 	cp benchmark-defs/$*.xml.template $*.xml
-	sed -i 's|../chc-comp25-benchmarks|chc-comp25-benchmarks|g' $*.xml
+	sed -i 's|../chc-comp26-benchmarks|chc-comp26-benchmarks|g' $*.xml
 	- $(BENCHMARK) --no-compress-results \
 		--tool-directory $(TOOLS_DIRECTORY)/$(patsubst %-model,%,$*) \
 		$(if $(filter 1,$(VCLOUD)),--vcloudAdditionalFiles $(TOOLS_DIRECTORY)/$(patsubst %-model,%,$*)) \
@@ -208,7 +208,7 @@ define validation_rule
 $(1)-validate-$(2)-models: configured
 	cp benchmark-defs/$(1)-validation.xml.template $(1)-validate-$(2)-models.xml
 	sed -i 's@../||MODELS-DIR||@$$(MODELS_DIRECTORY)/$(2)-models/$$$${rundefinition_name}.$$$${taskdef_name}.log@g' $(1)-validate-$(2)-models.xml
-	sed -i 's|../chc-comp25-benchmarks|chc-comp25-benchmarks|g' $(1)-validate-$(2)-models.xml
+	sed -i 's|../chc-comp26-benchmarks|chc-comp26-benchmarks|g' $(1)-validate-$(2)-models.xml
 	- $$(BENCHMARK) --no-compress-results --tool-directory $$(TOOLS_DIRECTORY)/$(1) \
 		$$(if $$(filter 1,$$(VCLOUD)),--vcloudAdditionalFiles $$(TOOLS_DIRECTORY)/$(1) $$(TOOLS_DIRECTORY)/validator models/$(2)-models) \
 		$$(BENCHMARK_PARAMS) $(1)-validate-$(2)-models.xml

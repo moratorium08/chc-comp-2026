@@ -10,29 +10,29 @@
   <tasks name="LIA-Lin">
     <option>--logic=QF_LIA</option>
     <option>--engine=imc,pdkind,spacer,split-tpa</option>
-    <includesfile>../chc-comp25-benchmarks/LIA-Lin.set</includesfile>
-    <propertyfile expectedverdict="true">../chc-comp25-benchmarks/properties/check-sat.prp</propertyfile>
+    <includesfile>../chc-comp26-benchmarks/LIA-Lin.set</includesfile>
+    <propertyfile expectedverdict="true">../chc-comp26-benchmarks/properties/check-sat.prp</propertyfile>
   </tasks>
 
   <tasks name="LRA-Lin">
     <option>--logic=QF_LRA</option>
     <option>--engine=imc,kind,pdkind,split-tpa</option>
-    <includesfile>../chc-comp25-benchmarks/LRA-Lin.set</includesfile>
-    <propertyfile expectedverdict="true">../chc-comp25-benchmarks/properties/check-sat.prp</propertyfile>
+    <includesfile>../chc-comp26-benchmarks/LRA-Lin.set</includesfile>
+    <propertyfile expectedverdict="true">../chc-comp26-benchmarks/properties/check-sat.prp</propertyfile>
   </tasks>
 
   <tasks name="LIA">
     <option>--logic=QF_LIA</option>
     <option>--engine=spacer,pa</option>
-    <includesfile>../chc-comp25-benchmarks/LIA.set</includesfile>
-    <propertyfile expectedverdict="true">../chc-comp25-benchmarks/properties/check-sat.prp</propertyfile>
+    <includesfile>../chc-comp26-benchmarks/LIA.set</includesfile>
+    <propertyfile expectedverdict="true">../chc-comp26-benchmarks/properties/check-sat.prp</propertyfile>
   </tasks>
 
   <tasks name="LIA-Lin-Arrays">
     <option>--logic=QF_ALIA</option>
     <option>--engine=bmc,kind</option>
-    <includesfile>../chc-comp25-benchmarks/LIA-Lin-Arrays.set</includesfile>
-    <propertyfile expectedverdict="true">../chc-comp25-benchmarks/properties/check-sat.prp</propertyfile>
+    <includesfile>../chc-comp26-benchmarks/LIA-Lin-Arrays.set</includesfile>
+    <propertyfile expectedverdict="true">../chc-comp26-benchmarks/properties/check-sat.prp</propertyfile>
   </tasks>
 </rundefinition>
 
