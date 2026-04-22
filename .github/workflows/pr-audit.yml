@@ -27,11 +27,7 @@ jobs:
       - name: Download tools
         run: |
           tree tools -L 2
-          if make download-tools -j4 2>&1; then
-            echo "All tools downloaded successfully."
-          else
-            echo "ERROR: Some tools failed to download."
-          fi
+          make download-tools -j4
 
       - name: Run debug-templates
         id: templates
