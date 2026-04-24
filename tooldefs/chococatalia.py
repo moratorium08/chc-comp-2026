@@ -23,7 +23,7 @@ class Tool(benchexec.tools.chc.ChcTool):
         return tool_locator.find_executable("run")
 
     def version(self, executable):
-        return self._version_from_tool(executable, line_prefix="hoice:  ")
+        return self._version_from_tool(executable)
 
     def name(self):
         return "ChocoCatalia"
