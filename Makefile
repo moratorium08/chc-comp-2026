@@ -68,7 +68,8 @@ download-tools: download-verifiers download-validators
 download-verifiers: \
 	$(TOOLS_DIRECTORY)/golem \
 	$(TOOLS_DIRECTORY)/spacer \
-	$(TOOLS_DIRECTORY)/theta
+	$(TOOLS_DIRECTORY)/theta \
+	$(TOOLS_DIRECTORY)/choco-catalia
 
 download-validators: \
 	$(TOOLS_DIRECTORY)/z3 \
@@ -122,6 +123,13 @@ $(TOOLS_DIRECTORY)/spacer: $(TOOLS_DIRECTORY)/z3
 	rm -rf $@
 	ln -sf ./z3/bin $(TOOLS_DIRECTORY)/spacer
 
+
+$(TOOLS_DIRECTORY)/choco-catalia:
+	mkdir -p $(TOOLS_DIRECTORY)
+	rm -rf $@
+	wget 'https://www.kb.is.s.u-tokyo.ac.jp/~katsura/chc-comp-2026/archive.zip' -O $(TOOLS_DIRECTORY)/choco-catalia.zip
+	cd $(TOOLS_DIRECTORY) && unzip choco-catalia.zip && mv archive choco-catalia
+	rm $(TOOLS_DIRECTORY)/choco-catalia.zip
 ### TODO: add new verifiers here.
 
 ### Below are the validators.
