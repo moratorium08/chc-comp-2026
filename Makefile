@@ -68,7 +68,7 @@ download-tools: download-verifiers download-validators
 download-verifiers: \
 	$(TOOLS_DIRECTORY)/golem \
 	$(TOOLS_DIRECTORY)/spacer \
-	$(TOOLS_DIRECTORY)/chococatalia
+	$(TOOLS_DIRECTORY)/chococatalia \
 	$(TOOLS_DIRECTORY)/eldarica \
 	$(TOOLS_DIRECTORY)/theta
 
